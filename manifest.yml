@@ -1,0 +1,42 @@
+lzc-sdk-version: "0.1"
+name: Cashbook
+package: cloud.lazycat.app.cashbook
+version: 4.0.6
+description: 适合家庭部署的私人记账本！
+homepage: https://github.com/dingdangdog/cashbook
+author: dingdangdog
+application:
+  subdomain: cashbook
+  background_task: true
+  multi_instance: false
+  gpu_accel: false
+  kvm_accel: false
+  usb_accel: false
+  routes:
+    - /=http://cashbook4.cloud.lazycat.app.cashbook.lzcapp:9090/
+
+services:
+  cashbook4:
+    image: registry.lazycat.cloud/czyt/dingdangdog/cashbook:ce84d91801304269
+    environment:
+      - DATABASE_URL=postgresql://postgres:postgres@cashbook_db:5432/cashbook?schema=public
+      - NUXT_DATA_PATH=/app/data
+      - NUXT_APP_URL=https://${LAZYCAT_APP_DOMAIN}
+      - NUXT_AUTH_ORIGIN=https://${LAZYCAT_APP_DOMAIN}/api/auth
+      - NUXT_AUTH_SECRET=lazycat
+      - NUXT_ADMIN_USERNAME=admin
+      - NUXT_ADMIN_PASSWORD=5af9af63c3d67ede16c88986dee08673112a36afecdd8b9f49d3b395fe8dd1eb
+    depends_on:
+      - cashbook_db
+    binds:
+      - /lzcapp/var/data:/app/data
+
+  cashbook_db:
+    container_name: cashbook_db
+    image: registry.lazycat.cloud/czyt/library/postgres:4bf579971745e6ce
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cashbook
+    binds:
+      - /lzcapp/var/db:/var/lib/postgresql/data

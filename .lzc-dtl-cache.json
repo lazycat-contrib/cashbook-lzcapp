@@ -1,0 +1,43 @@
+{
+  "name": "Cashbook",
+  "package": "cloud.lazycat.app.cashbook",
+  "description": "适合家庭部署的私人记账本！",
+  "homepage": "https://github.com/dingdangdog/cashbook",
+  "author": "dingdangdog",
+  "app_features": [
+    "background_task"
+  ],
+  "subdomain": "cashbook",
+  "version": "4.0.6",
+  "iconPath": "icon.png",
+  "composePath": "docker-compose.yaml",
+  "unsupported_platforms": [],
+  "lastRouteType": "from_compose",
+  "port_mappings": {
+    "cashbook4_9090_9090": {
+      "use": true,
+      "type": "http",
+      "path": "/",
+      "targetPath": "/"
+    },
+    "postgres_5432_5432": {
+      "use": true,
+      "type": "port",
+      "protocol": "tcp"
+    }
+  },
+  "image_dingdangdog_cashbook_4.0.1": {
+    "originalImage": "dingdangdog/cashbook:4.0.1",
+    "pushTarget": "lazycat",
+    "newImageName": "registry.lazycat.cloud/czyt/dingdangdog/cashbook:ce84d91801304269",
+    "timestamp": "2025-02-27T09:22:06.103Z"
+  },
+  "cashbook4_volume_/app/data_action": "emptyDir",
+  "cashbook4_volume_/app/data_location": "app_data",
+  "image_registry.lazycat.cloud_postgres": {
+    "originalImage": "registry.lazycat.cloud/postgres",
+    "pushTarget": "none"
+  },
+  "postgres_volume_postgres_data_/var/lib/postgresql/data_action": "emptyDir",
+  "postgres_volume_/var/lib/postgresql/data_location": "app_data"
+}
