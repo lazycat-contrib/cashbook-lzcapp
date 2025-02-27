@@ -2,7 +2,8 @@ services:
   cashbook4:
     container_name: cashbook4
     depends_on:
-      - "postgres"
+      postgres:
+        condition: service_healthy
     image: dingdangdog/cashbook:4.0.1
     restart: always
     # network_mode: "host"
@@ -32,6 +33,11 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432" # 如果您已有PostgreSQL运行在5432端口，可以修改为其他端口，例如"5433:5432"
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
 
 volumes:
   postgres_data:
