@@ -11,11 +11,11 @@ application:
     - protocol: tcp
       port: 5432
       service: cashbook_db
-
 services:
   cashbook4:
     # dingdangdog/cashbook:4.0.6
-    image: registry.lazycat.cloud/czyt/dingdangdog/cashbook:ce84d91801304269
+    # upstream: dingdangdog/cashbook:4.3.14
+    image: registry.lazycat.cloud/czyt/dingdangdog/cashbook:7fb2935059254c13
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@cashbook_db:5432/cashbook?schema=public
       - NUXT_DATA_PATH=/app/data
@@ -28,7 +28,6 @@ services:
       - cashbook_db
     binds:
       - /lzcapp/var/data:/app/data
-
   cashbook_db:
     image: registry.lazycat.cloud/czyt/library/postgres:4bf579971745e6ce
     environment:
