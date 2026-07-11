@@ -1,0 +1,19 @@
+package: cloud.lazycat.app.cashbook
+version: 4.0.6
+name: Cashbook
+description: 适合家庭部署的私人记账本
+min_os_version: 1.5.0
+homepage: https://github.com/dingdangdog/cashbook
+author: dingdangdog
+
+permissions:
+  required:
+    - net.internet
+
+locales:
+  zh:
+    name: Cashbook
+    description: 适合家庭部署的私人记账本
+  en:
+    name: Cashbook
+    description: A private household bookkeeping application

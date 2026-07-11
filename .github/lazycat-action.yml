@@ -1,0 +1,44 @@
+version: 1
+
+project:
+  root: .
+  build_config: lzc-build.yml
+  package_file: package.yml
+  output: dist/cashbook.lpk
+
+update:
+  strategy: publish
+  allow_downgrade: false
+  version_source:
+    type: image
+    image: cashbook
+
+build:
+  run_buildscript: false
+
+images:
+  - id: cashbook
+    target: service
+    service: cashbook4
+    source: dingdangdog/cashbook
+    channel: stable
+    tag_regex: '^v?[0-9]+\.[0-9]+\.[0-9]+$'
+    delivery:
+      mode: lazycat
+
+stores:
+  official:
+    enabled: true
+    skip_if_version_exists: true
+    create_if_missing: true
+    changelog_locales: [zh, en]
+    application:
+      language: zh
+      name: Cashbook
+      source: https://github.com/dingdangdog/cashbook
+      source_author: dingdangdog
+  private:
+    enabled: true
+    skip_if_version_exists: true
+    name: Cashbook
+    summary: 适合家庭部署的私人记账本

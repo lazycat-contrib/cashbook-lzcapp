@@ -1,19 +1,12 @@
-lzc-sdk-version: "0.1"
-name: Cashbook
-package: cloud.lazycat.app.cashbook
-version: 4.0.6
-description: 适合家庭部署的私人记账本！
-homepage: https://github.com/dingdangdog/cashbook
-author: dingdangdog
 application:
   subdomain: cashbook
   background_task: true
   multi_instance: false
-  gpu_accel: false
-  kvm_accel: false
-  usb_accel: false
-  routes:
-    - /=http://cashbook4.cloud.lazycat.app.cashbook.lzcapp:9090/
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      backend: http://cashbook4:9090/
   ingress:
     - protocol: tcp
       port: 5432
@@ -21,6 +14,7 @@ application:
 
 services:
   cashbook4:
+    # dingdangdog/cashbook:4.0.6
     image: registry.lazycat.cloud/czyt/dingdangdog/cashbook:ce84d91801304269
     environment:
       - DATABASE_URL=postgresql://postgres:postgres@cashbook_db:5432/cashbook?schema=public
@@ -36,7 +30,6 @@ services:
       - /lzcapp/var/data:/app/data
 
   cashbook_db:
-    container_name: cashbook_db
     image: registry.lazycat.cloud/czyt/library/postgres:4bf579971745e6ce
     environment:
       - POSTGRES_USER=postgres
@@ -44,7 +37,7 @@ services:
       - POSTGRES_DB=cashbook
     binds:
       - /lzcapp/var/db:/var/lib/postgresql/data
-    health_check:
+    healthcheck:
       test:
         - CMD-SHELL
         - pg_isready -U postgres
