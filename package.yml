@@ -1,4 +1,5 @@
 package: cloud.lazycat.app.cashbook
+license: MIT
 version: 4.3.14
 name: Cashbook
 description: 适合家庭部署的私人记账本
